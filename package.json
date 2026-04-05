@@ -1,0 +1,17 @@
+{
+  "name": "@torquedev/eventbus",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "index.js",
+  "peerDependencies": {
+    "@torquedev/core": ">=0.1.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/torque-framework/torque-service-eventbus.git"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}
