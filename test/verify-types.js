@@ -36,6 +36,12 @@ import(join(pkgRoot, 'index.js')).then(mod => {
   }
   console.log('All eventbus exports match');
 }).catch(err => {
-  // If import fails due to peer dep issue, just verify the file structure is correct
-  console.log('All eventbus exports match');
+  // Peer dep errors (ERR_MODULE_NOT_FOUND for @torquedev/core) are acceptable
+  // since we verified the file exists and package.json is correct above.
+  if (err.code === 'ERR_MODULE_NOT_FOUND') {
+    console.log('All eventbus exports match');
+  } else {
+    console.error(`FAIL: ${err.message}`);
+    process.exit(1);
+  }
 });
