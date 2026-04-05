@@ -291,6 +291,16 @@ export class EventBus {
     }
   }
 
+  unregisterDeclaredEvents(bundleName) {
+    this._declaredEvents.delete(bundleName);
+  }
+
+  unregisterEventSchemas(bundleName) {
+    for (const [eventName, meta] of this._eventSchemas) {
+      if (meta.bundle === bundleName) this._eventSchemas.delete(eventName);
+    }
+  }
+
   subscriptions() {
     const result = {};
     for (const [event, subs] of this.subscribers) {

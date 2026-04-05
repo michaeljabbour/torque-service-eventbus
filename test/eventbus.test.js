@@ -196,7 +196,8 @@ describe('EventBus', () => {
       bus.unsubscribeBundle('alpha');
 
       const subs = bus.subscriptions();
-      assert.ok(!subs['event.a'] || !subs['event.a'].includes('alpha'), 'alpha should be removed from event.a');
+      assert.ok(subs['event.a']?.length > 0, 'event.a should still have beta');
+      assert.ok(!subs['event.a'].includes('alpha'), 'alpha should be removed from event.a');
       assert.ok(!subs['event.b'], 'event.b key should be gone (no remaining subscribers)');
     });
 
