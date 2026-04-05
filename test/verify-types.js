@@ -3,8 +3,7 @@
  * that package.json has "types" pointing to index.d.ts.
  * Prints "All eventbus exports match" on success, exits 1 on failure.
  */
-import { existsSync } from 'fs';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
