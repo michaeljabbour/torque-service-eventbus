@@ -280,6 +280,17 @@ export class EventBus {
     this.subscribers.get(eventName).push({ bundle: bundleName, handler });
   }
 
+  unsubscribeBundle(bundleName) {
+    for (const [eventName, subs] of this.subscribers) {
+      const filtered = subs.filter(s => s.bundle !== bundleName);
+      if (filtered.length === 0) {
+        this.subscribers.delete(eventName);
+      } else {
+        this.subscribers.set(eventName, filtered);
+      }
+    }
+  }
+
   subscriptions() {
     const result = {};
     for (const [event, subs] of this.subscribers) {

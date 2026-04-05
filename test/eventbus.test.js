@@ -186,4 +186,37 @@ describe('EventBus', () => {
       assert.doesNotThrow(() => bus.publish('test.event', {}));
     });
   });
+
+  describe('unsubscribeBundle', () => {
+    it('removes all subscriptions for the given bundle', () => {
+      bus.subscribe('event.a', 'alpha', () => {});
+      bus.subscribe('event.b', 'alpha', () => {});
+      bus.subscribe('event.a', 'beta', () => {});
+
+      bus.unsubscribeBundle('alpha');
+
+      const subs = bus.subscriptions();
+      assert.ok(!subs['event.a'] || !subs['event.a'].includes('alpha'), 'alpha should be removed from event.a');
+      assert.ok(!subs['event.b'], 'event.b key should be gone (no remaining subscribers)');
+    });
+
+    it('is a no-op for a bundle that has no subscriptions', () => {
+      bus.subscribe('event.a', 'beta', () => {});
+      assert.doesNotThrow(() => bus.unsubscribeBundle('nonexistent'));
+      const subs = bus.subscriptions();
+      assert.deepEqual(subs['event.a'], ['beta']);
+    });
+
+    it('leaves other bundles\' subscriptions untouched', () => {
+      bus.subscribe('event.a', 'alpha', () => {});
+      bus.subscribe('event.a', 'beta', () => {});
+      bus.subscribe('event.b', 'alpha', () => {});
+
+      bus.unsubscribeBundle('alpha');
+
+      const subs = bus.subscriptions();
+      assert.deepEqual(subs['event.a'], ['beta'], 'beta should still be subscribed to event.a');
+      assert.ok(!subs['event.b'], 'event.b should be removed since alpha was its only subscriber');
+    });
+  });
 });
